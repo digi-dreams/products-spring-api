@@ -1,0 +1,21 @@
+app:
+  version: "@project.version@"
+
+spring:
+  application:
+    name: PRODUCTS-SERVICE
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/products
+    username: meuusuario
+    password: minhasenha
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+server:
+  port: 8080
