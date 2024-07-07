@@ -1,7 +1,9 @@
 package products.application.mapper;
 
+import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 import org.mapstruct.Named;
 import products.application.dto.request.ProductRequest;
 import products.application.dto.response.ProductResponse;
@@ -47,6 +49,17 @@ public interface IProductMapper {
     @Mapping(target = "createdAt", source = "oldProduct.createdAt")
     @Mapping(target = "updatedAt", source = "oldProduct.updatedAt")
     Product toNewProduct(Product oldProduct, ProductRequest request);
+
+    @AfterMapping
+    default void handleNulls(@MappingTarget Product product, Product oldProduct, ProductRequest request) {
+        if (request.imageUrl() == null || request.imageUrl().isBlank()) {
+            product.setImageUrl(oldProduct.getImageUrl());
+        }
+
+        if (request.description() == null || request.description().isBlank()) {
+            product.setDescription(oldProduct.getDescription());
+        }
+    }
 
     @Named("categoriesToStringSet")
     default Set<String> categoriesToStringSet(Set<ECategory> categories) {

@@ -31,7 +31,7 @@ public class Product {
     @Column(name = "quantity", nullable = false)
     private Integer quantity;
 
-    @Column(name = "description", nullable = false)
+    @Column(name = "description")
     private String description;
 
     @Column(name = "image_url")
