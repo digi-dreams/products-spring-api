@@ -1,6 +1,7 @@
 package products.application.dto.response;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 public record ProductResponse(
@@ -11,7 +12,7 @@ public record ProductResponse(
         String description,
         String imageUrl,
         Set<String> categories,
-        Long createdAt,
-        Long updatedAt
+        LocalDateTime createdAt,
+        LocalDateTime updatedAt
 ) {
 }

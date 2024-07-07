@@ -1,6 +1,7 @@
 package products.domain.service;
 
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import products.application.dto.request.ProductRequest;
@@ -33,20 +34,23 @@ public class ProductServiceImpl implements IProductService {
     }
 
     @Override
+    @Transactional
     public ProductResponse saveProduct(ProductRequest request) {
         return mapper.toProductResponse(repository
                 .saveProduct(mapper.toProduct(request)));
     }
 
     @Override
+    @Transactional
     public ProductResponse updateProduct(Long id, ProductRequest request) {
-        var product = mapper.toProduct(request);
-        product.setId(id);
+        Product oldProduct = findById(id);
+        Product newProduct = mapper.toNewProduct(oldProduct, request);
 
-        return mapper.toProductResponse(repository.saveProduct(product));
+        return mapper.toProductResponse(repository.saveProduct(newProduct));
     }
 
     @Override
+    @Transactional
     public void deleteProductById(Long id) {
         findById(id);
         repository.deleteProductById(id);

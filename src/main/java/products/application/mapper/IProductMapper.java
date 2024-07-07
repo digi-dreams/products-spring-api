@@ -37,6 +37,17 @@ public interface IProductMapper {
     @Mapping(target = "updatedAt", ignore = true)
     Product toProduct(ProductRequest productRequest);
 
+    @Mapping(target = "id", source = "oldProduct.id")
+    @Mapping(target = "name", source = "request.name")
+    @Mapping(target = "price", source = "request.price")
+    @Mapping(target = "quantity", source = "request.quantity")
+    @Mapping(target = "description", source = "request.description")
+    @Mapping(target = "imageUrl", source = "request.imageUrl")
+    @Mapping(target = "categories", source = "request.categories")
+    @Mapping(target = "createdAt", source = "oldProduct.createdAt")
+    @Mapping(target = "updatedAt", source = "oldProduct.updatedAt")
+    Product toNewProduct(Product oldProduct, ProductRequest request);
+
     @Named("categoriesToStringSet")
     default Set<String> categoriesToStringSet(Set<ECategory> categories) {
         if (categories == null) {

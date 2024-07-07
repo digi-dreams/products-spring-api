@@ -1,10 +1,9 @@
 package products.domain.model;
 
 import lombok.*;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 import products.domain.enums.ECategory;
 
+import java.time.LocalDateTime;
 import java.util.Set;
 import java.math.BigDecimal;
 import jakarta.persistence.*;
@@ -43,13 +42,21 @@ public class Product {
     @Column(name = "category")
     private Set<ECategory> categories;
 
-    @CreatedDate
     @Column(name = "created_at", nullable = false)
-    private Long createdAt;
+    private LocalDateTime createdAt;
 
-    @LastModifiedDate
     @Column(name = "updated_at", nullable = false)
-    private Long updatedAt;
+    private LocalDateTime updatedAt;
 
+    @PrePersist
+    protected void onCreate() {
+        LocalDateTime now = LocalDateTime.now();
+        this.createdAt = now;
+        this.updatedAt = now;
+    }
 
+    @PreUpdate
+    protected void onUpdate() {
+        this.updatedAt = LocalDateTime.now();
+    }
 }
